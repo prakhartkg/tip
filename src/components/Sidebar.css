@@ -1,0 +1,70 @@
+.sidebar {
+    height: 92vh; /* Full height for the sidebar */
+    border-right: 1px solid #dee2e6; /* Light border for separation */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .file-tree {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    flex-grow: 1; /* Allow the file list to grow and take available space */
+    overflow-y: auto; /* Add scroll if the list exceeds available height */
+  }
+  
+  .file-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #dee2e6; /* Border between items */
+    background-color: #fff; /* Background color for items */
+    cursor: pointer; /* Cursor to indicate clickable item */
+  }
+  
+  .file-item:hover {
+    background-color: #f1f1f1; /* Background color on hover */
+  }
+  
+  .file-name {
+    flex-grow: 1; /* Allow file name to take available space */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Ellipsis for overflow text */
+  }
+  
+  .file-name.active {
+    font-weight: bold; /* Highlight selected file */
+  }
+  
+  .delete-button {
+    margin-left: 0.5rem; /* Space between file name and delete button */
+    padding: 0; /* Remove default padding */
+    color: #dc3545; /* Red color for delete icon */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+  }
+  
+  .delete-button:hover {
+    color: #c82333; /* Darker red on hover */
+  }
+  
+  .upload-section {
+    margin-bottom: auto; /* Pushes the upload section above the footer */
+  }
+  
+  .upload-section input[type="file"] {
+    margin-bottom: 0.5rem; /* Space between file input and button */
+  }
+  
+  .upload-section button {
+    border-radius: 0; /* Remove border radius for a flat design */
+  }
+  
+  .footer {
+    border-top: 1px solid #dee2e6; /* Light border for separation */
+    padding: 1rem;
+    background-color: #f8f9fa; /* Light background color for footer */
+    text-align: center;
+  }
+  
+  
