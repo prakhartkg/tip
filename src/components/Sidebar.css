@@ -49,6 +49,7 @@
   }
   
   .upload-section {
+    padding-bottom: 37px;
     margin-bottom: auto; /* Pushes the upload section above the footer */
   }
   

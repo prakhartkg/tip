@@ -7,11 +7,12 @@ export const sendMessage = createAsyncThunk(
   async ({ message, fileId }, { rejectWithValue }) => {
     try {
       // Replace this with your actual chat API endpoint
-      const response = await axios.post('/api/chat', {
-        message,
-        fileId,
+      const response = await axios.post('http://localhost:5000/chat', {question:message,fileName:fileId},{
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any additional headers if needed
+        },
       });
-
       return response.data.botReply;
     } catch (error) {
       return rejectWithValue(error.response.data || error.message);
@@ -56,7 +57,7 @@ const chatSlice = createSlice({
         // Optionally, you can add an error message to the chat
         state.messages.push({
           sender: 'bot',
-          text: 'Error: Unable to get a response from the server.',
+          text: 'Error: Unable to get a response from the server.'+action.payload.error,
         });
       });
   },

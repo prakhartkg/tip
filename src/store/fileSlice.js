@@ -9,8 +9,12 @@ const dummyFiles = Array.from({ length: 5 }, (_, index) => ({
 
 export const fetchFiles = createAsyncThunk('files/fetchFiles', async () => {
   try {
-    const response = await axios.get('/api/getFiles');
-    return response.data;
+    const response = await axios.get('http://localhost:5000/list_pdfs');
+    const files = response.data.map(item => ({
+      id: item,
+      name:item
+  }));
+    return files;
   } catch (error) {
     throw new Error('Failed to fetch files');
   }
@@ -19,7 +23,7 @@ export const fetchFiles = createAsyncThunk('files/fetchFiles', async () => {
 export const fileSlice = createSlice({
   name: 'files',
   initialState: {
-    files: dummyFiles, // Default to dummy files
+    files: [], // Default to dummy files
     selectedFile: null,
     status: 'idle',
     error: null,

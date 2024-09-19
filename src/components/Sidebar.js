@@ -20,8 +20,6 @@ function Sidebar() {
     dispatch(selectFile(fileId));
   };
 
-  handleFileSelect(files[0])
-
   const handleFileChange = (event) => {
     setFileToUpload(event.target.files[0]);
   };
@@ -35,7 +33,7 @@ function Sidebar() {
     formData.append('file', fileToUpload);
 
     try {
-      await axios.post('/api/uploadFile', formData, {
+      await axios.post('http://localhost:5000/upload_pdf', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -50,14 +48,6 @@ function Sidebar() {
     }
   };
 
-  const handleDeleteFile = async (fileId) => {
-    try {
-      await axios.delete(`/api/deleteFile/${fileId}`);
-      dispatch(fetchFiles());
-    } catch (error) {
-      console.error('Error deleting file:', error);
-    }
-  };
 
   return (
     <div className="sidebar d-flex flex-column p-3 bg-light">
@@ -73,12 +63,6 @@ function Sidebar() {
             >
               {file.name}
             </span>
-            <button
-              className="btn btn-link text-danger btn-sm delete-button"
-              onClick={() => handleDeleteFile(file.id)}
-            >
-              <FaTrash />
-            </button>
           </li>
         ))}
       </ul>
@@ -97,10 +81,6 @@ function Sidebar() {
           {uploading ? 'Uploading...' : 'Upload File'}
         </button>
       </div>
-      <footer className="footer mt-3">
-        {/* Your footer content here */}
-        <p>Footer content</p>
-      </footer>
     </div>
   );
 }
