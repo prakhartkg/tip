@@ -7,7 +7,7 @@ export const sendMessage = createAsyncThunk(
   async ({ message, fileId }, { rejectWithValue }) => {
     try {
       // Replace this with your actual chat API endpoint
-      const response = await axios.post('http://localhost:5000/chat', {question:message,fileName:fileId},{
+      const response = await axios.post('http://localhost:5000/chat', {question:message,filename:fileId},{
         headers: {
           'Content-Type': 'application/json',
           // Include any additional headers if needed
