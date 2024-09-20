@@ -32,6 +32,15 @@ function Sidebar() {
     }
   };
 
+  const handleFileDelete = async (fileId) => {
+    try {
+      await axios.delete(`http://localhost:5000/delete_pdf/${fileId}`);
+      dispatch(fetchFiles()); // Refresh the file list
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
+  };
+
   const handleFileUpload = async (file) => {
     if (!file) return;
 
@@ -81,6 +90,13 @@ function Sidebar() {
             >
               {file.name}
             </span>
+            <button 
+              className="btn btn-link text-danger" 
+              onClick={() => handleFileDelete(file.id)}
+              title="Delete File"
+            >
+              <i className="fa fa-trash" aria-hidden="true"></i> {/* Trash icon */}
+            </button>
           </li>
         ))}
       </ul>
