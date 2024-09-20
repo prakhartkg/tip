@@ -25,13 +25,13 @@ function Message({ sender, text, isError,index, len, refSection=[]}) {
         ) : (
           index === len - 1 ? <TypingEffect text={text} onComplete={handleTypingComplete} /> : <MarkdownDisplay text={text} />
         )}
-
+        {typingComplete && sender==='bot' && refSection.length>0 ? <div><strong>Refrences:</strong><br /><br /></div>:''}
         <div id="section">
           {typingComplete && sender === 'bot' && refSection.map((item, idx) => (
             <div key={idx}>
-              <strong>Section {idx + 1}:</strong><br />
-              <TypingEffect text={text} /><br />
-              <span dangerouslySetInnerHTML={{ __html: createPdfAnchor(item.metadata,idx) }} /><br /><br />
+              {/* <strong>Section {idx + 1}:</strong><br />
+              <TypingEffect text={text} /><br /> */}
+              <span dangerouslySetInnerHTML={{ __html: createPdfAnchor(item.metadata,idx) }} /><br />
             </div>
           ))}
       </div>
