@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFiles, selectFile, deleteFile } from '../store/fileSlice'; // Ensure this path is correct
 import axios from 'axios';
 import './Sidebar.css'; // Ensure this file exists and is properly linked
-import { FaTrash } from 'react-icons/fa'; // Import Font Awesome trash icon
+
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -11,7 +11,14 @@ function Sidebar() {
   const [uploading, setUploading] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null);
 
+  const uploadRef = useRef(null);
+
   useEffect(() => {
+    const footer = document.querySelector('.footer');
+   const footerHeight = footer ? footer.offsetHeight : 0;
+   if (uploadRef.current) {
+     uploadRef.current.style.marginBottom = `${footerHeight}px`;
+   }
     dispatch(fetchFiles());
   }, [dispatch]);
 
@@ -66,7 +73,7 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <div className="upload-section mt-3">
+      <div className="upload-section mt-3" ref={uploadRef}>
         <input
           type="file"
           onChange={handleFileChange}
@@ -78,6 +85,7 @@ function Sidebar() {
           onClick={handleFileUpload}
           disabled={uploading || !fileToUpload}
         >
+           <i className="fa fa-arrow-up" aria-hidden="true"></i>
           {uploading ? 'Uploading...' : 'Upload File'}
         </button>
       </div>

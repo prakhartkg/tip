@@ -18,13 +18,14 @@
 
 /* Message bubble styles for both user and bot */
 .message-bubble {
-  max-width: 60%;
+  max-width: 200px;
   padding: 10px 15px;
   border-radius: 20px;
   font-size: 16px;
   word-wrap: break-word;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
+  max-width: 70%;
 }
 
 /* User message bubble (aligned right) */
@@ -41,6 +42,14 @@
   color: #333;
   border-bottom-left-radius: 0;
   text-align: left;
+}
+
+.message-bubble.bot.error {
+  background-color: #e60838;
+  color: #e9ecef;
+  border-bottom-left-radius: 0;
+  text-align: left;
+  font-weight: bold;
 }
 
 /* Remove outline when button or input is clicked */

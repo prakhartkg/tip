@@ -3,6 +3,7 @@
     border-right: 1px solid #dee2e6; /* Light border for separation */
     display: flex;
     flex-direction: column;
+    max-width: 700px;
   }
   
   .file-tree {
@@ -49,8 +50,9 @@
   }
   
   .upload-section {
-    padding-bottom: 37px;
     margin-bottom: auto; /* Pushes the upload section above the footer */
+    position: relative; /* Position it relative to its parent */
+    z-index: 10; /* Make sure it appears above other elements */
   }
   
   .upload-section input[type="file"] {

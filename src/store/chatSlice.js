@@ -6,6 +6,7 @@ export const sendMessage = createAsyncThunk(
   'chat/sendMessage',
   async ({ message, fileId }, { rejectWithValue }) => {
     try {
+      if(!fileId) return rejectWithValue({error:  "Please select the file first form the sidebar for the context of your Questions.."})
       // Replace this with your actual chat API endpoint
       const response = await axios.post('http://localhost:5000/chat', {question:message,filename:fileId},{
         headers: {
@@ -13,8 +14,9 @@ export const sendMessage = createAsyncThunk(
           // Include any additional headers if needed
         },
       });
-      return response.data.botReply;
+      return response.data.answer;
     } catch (error) {
+      if(!error.response) return rejectWithValue({error: "due to some unknown reason."});
       return rejectWithValue(error.response.data || error.message);
     }
   }
@@ -57,7 +59,8 @@ const chatSlice = createSlice({
         // Optionally, you can add an error message to the chat
         state.messages.push({
           sender: 'bot',
-          text: 'Error: Unable to get a response from the server.'+action.payload.error,
+          text: 'Sorry I am not able to answer this,'+action.payload.error,
+          error:true
         });
       });
   },
