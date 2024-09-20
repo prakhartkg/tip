@@ -18,7 +18,7 @@
 
 /* Message bubble styles for both user and bot */
 .message-bubble {
-  max-width: 200px;
+  max-width: 100px;
   padding: 10px 15px;
   border-radius: 20px;
   font-size: 16px;

@@ -35,7 +35,8 @@ function ChatWindow() {
     <div className="chat-window flex-grow-1 d-flex flex-column">
       <div className="chat-messages flex-grow-1 p-3" ref={chatWindowRef}>
         {messages.map((msg, index) => (
-          <Message key={index} sender={msg.sender} text={msg.text} isError={msg.error}/>
+          <Message key={index} index={index} sender={msg.sender} text={msg.text} isError={msg.error} len={messages.length} refSection={msg.refSection}/>
+          
         ))}
       </div>
       <div className="input-area p-3 d-flex">
