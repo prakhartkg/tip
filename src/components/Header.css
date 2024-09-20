@@ -10,11 +10,12 @@
   }
   
   .logo-container .logo {
-    height: 40px; /* Adjust the size of the logo */
+    height: 100px;
+    width: 100px; /* Adjust the size of the logo */
   }
   
   .app-name {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 700;
   }
   

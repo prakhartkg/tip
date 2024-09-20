@@ -36,7 +36,6 @@ function ChatWindow() {
       <div className="chat-messages flex-grow-1 p-3" ref={chatWindowRef}>
         {messages.map((msg, index) => (
           <Message key={index} index={index} sender={msg.sender} text={msg.text} isError={msg.error} len={messages.length} refSection={msg.refSection}/>
-          
         ))}
       </div>
       <div className="input-area p-3 d-flex">
@@ -48,8 +47,8 @@ function ChatWindow() {
           placeholder="Type a message..."
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
         />
-        <button className="btn btn-primary ms-2" onClick={handleSendMessage}>
-          Send
+        <button className={`btn ms-2 btn-sm ${userMessage.trim() ? 'btn-primary' : 'btn-secondary'}`} onClick={userMessage.trim() ? handleSendMessage : null} disabled={!userMessage.trim()}>
+            <i className="fas fa-paper-plane"></i> Send
         </button>
       </div>
     </div>

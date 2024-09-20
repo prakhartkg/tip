@@ -1,43 +1,43 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchFiles, selectFile, deleteFile } from '../store/fileSlice'; // Ensure this path is correct
+import { fetchFiles, selectFile } from '../store/fileSlice'; // Ensure this path is correct
 import axios from 'axios';
 import './Sidebar.css'; // Ensure this file exists and is properly linked
-
 
 function Sidebar() {
   const dispatch = useDispatch();
   const { files, selectedFile, status, error } = useSelector((state) => state.files);
   const [uploading, setUploading] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null);
-
   const uploadRef = useRef(null);
 
   useEffect(() => {
     const footer = document.querySelector('.footer');
-   const footerHeight = footer ? footer.offsetHeight : 0;
-   if (uploadRef.current) {
-     uploadRef.current.style.marginBottom = `${footerHeight}px`;
-   }
+    const footerHeight = footer ? footer.offsetHeight : 0;
+    if (uploadRef.current) {
+      uploadRef.current.style.marginBottom = `${footerHeight}px`;
+    }
     dispatch(fetchFiles());
   }, [dispatch]);
-
 
   const handleFileSelect = (fileId) => {
     dispatch(selectFile(fileId));
   };
 
   const handleFileChange = (event) => {
-    setFileToUpload(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      setFileToUpload(file);
+      handleFileUpload(file);
+    }
   };
 
-  const handleFileUpload = async () => {
-    if (!fileToUpload) return;
+  const handleFileUpload = async (file) => {
+    if (!file) return;
 
     setUploading(true);
-
     const formData = new FormData();
-    formData.append('file', fileToUpload);
+    formData.append('file', file);
 
     try {
       await axios.post('http://localhost:5000/upload_pdf', formData, {
@@ -45,7 +45,6 @@ function Sidebar() {
           'Content-Type': 'multipart/form-data',
         },
       });
-
       dispatch(fetchFiles());
       setFileToUpload(null); // Clear file input
     } catch (error) {
@@ -55,10 +54,22 @@ function Sidebar() {
     }
   };
 
-
   return (
     <div className="sidebar d-flex flex-column p-3 bg-light">
-      <h5 className="mb-3">Files</h5>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5 className="sidebar-heading mb-0">Contracts</h5>
+        <label htmlFor="fileInput" className="btn upload-button">
+          <i className="fa fa-upload" aria-hidden="true"></i> {/* Changed to upload icon */}
+             Upload Contracts
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="d-none"
+        />
+      </div>
       {status === 'loading' && <div className="text-center">Loading files...</div>}
       {error && <div className="text-center text-danger">Error: {error}</div>}
       <ul className="file-tree">
@@ -73,22 +84,6 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <div className="upload-section mt-3" ref={uploadRef}>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          disabled={uploading}
-          className="form-control mb-2"
-        />
-        <button
-          className="btn btn-primary w-100"
-          onClick={handleFileUpload}
-          disabled={uploading || !fileToUpload}
-        >
-           <i className="fa fa-arrow-up" aria-hidden="true"></i>
-          {uploading ? 'Uploading...' : 'Upload File'}
-        </button>
-      </div>
     </div>
   );
 }

@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define a set of dummy files
-const dummyFiles = Array.from({ length: 5 }, (_, index) => ({
-  id: `dummy-${index}`,
-  name: `Dummy File ${index + 1}.txt`,
-}));
+
 
 export const fetchFiles = createAsyncThunk('files/fetchFiles', async () => {
   try {
@@ -48,7 +44,7 @@ export const fileSlice = createSlice({
       .addCase(fetchFiles.rejected, (state, action) => {
         state.status = 'failed';
         //state.error = action.error.message;
-        state.files = dummyFiles; // Set to dummy files on error
+        state.files = []; // Set to dummy files on error
       });
   },
 });
