@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFiles, selectFile } from '../store/fileSlice'; // Ensure this path is correct
 import axios from 'axios';
+import Loader from './Loader'
 import './Sidebar.css'; // Ensure this file exists and is properly linked
 
 function Sidebar() {
@@ -10,7 +11,7 @@ function Sidebar() {
   const [uploading, setUploading] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null);
   const uploadRef = useRef(null);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const footer = document.querySelector('.footer');
     const footerHeight = footer ? footer.offsetHeight : 0;
@@ -34,16 +35,19 @@ function Sidebar() {
 
   const handleFileDelete = async (fileId) => {
     try {
+      setLoading(true);
       await axios.delete(`http://localhost:5000/delete_pdf/${fileId}`);
       dispatch(fetchFiles()); // Refresh the file list
     } catch (error) {
       console.error('Error deleting file:', error);
+    }finally {
+      setLoading(false);
     }
   };
 
   const handleFileUpload = async (file) => {
     if (!file) return;
-
+    setLoading(true);
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
@@ -60,6 +64,7 @@ function Sidebar() {
       console.error('Error uploading file:', error);
     } finally {
       setUploading(false);
+      setLoading(false);
     }
   };
 
@@ -80,6 +85,7 @@ function Sidebar() {
         />
       </div>
       {status === 'loading' && <div className="text-center">Loading files...</div>}
+      {loading && <Loader />}
       {error && <div className="text-center text-danger">Error: {error}</div>}
       <ul className="file-tree">
         {files.map((file) => (

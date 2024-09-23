@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import TypingEffect from './TypingEffect';
 import MarkdownDisplay from './MarkdownDisplay';
 import './Message.css';
@@ -12,13 +12,23 @@ function createPdfAnchor(metadata, index) {
 function Message({ sender, text, isError,index, len, refSection=[]}) {
   const [typingComplete, setTypingComplete] = useState(false);
 
+
+  const chatWindowRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to bottom when messages change
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [typingComplete]);
+
   const handleTypingComplete = () => {
     setTypingComplete(true);
   };
 
   
   return (
-    <div className={`message ${sender === 'user' ? 'user-message' : 'bot-message'}`}>
+    <div className={`message ${sender === 'user' ? 'user-message' : 'bot-message'}`} ref={chatWindowRef}>
       <div className={`message-bubble ${sender} ${isError? 'error':''}`}>
       {sender === 'user' ? (
           text

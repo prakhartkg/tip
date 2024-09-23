@@ -8,7 +8,6 @@ function ChatWindow() {
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.chat.messages);
   const selectedFile = useSelector((state) => state.files.selectedFile);
-
   const chatWindowRef = useRef(null);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ function ChatWindow() {
 
   return (
     <div className="chat-window flex-grow-1 d-flex flex-column">
-      <div className="chat-messages flex-grow-1 p-3" ref={chatWindowRef}>
+      <div className="chat-messages flex-grow-1 p-3" ref={chatWindowRef} style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
         {messages.map((msg, index) => (
           <Message key={index} index={index} sender={msg.sender} text={msg.text} isError={msg.error} len={messages.length} refSection={msg.refSection}/>
         ))}

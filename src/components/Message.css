@@ -44,8 +44,8 @@
 }
 
 .message-bubble.bot.error {
-  background-color: #e60838;
-  color: #e9ecef;
+  background-color: #e9ecef;
+  color: #e60838;
   border-bottom-left-radius: 0;
   text-align: left;
   font-weight: bold;
