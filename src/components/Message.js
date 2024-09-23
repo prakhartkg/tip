@@ -35,7 +35,7 @@ function Message({ sender, text, isError,index, len, refSection=[]}) {
         ) : (
           index === len - 1 ? <TypingEffect text={text} onComplete={handleTypingComplete} /> : <MarkdownDisplay text={text} />
         )}
-        {typingComplete && sender==='bot' && refSection.length>0 ? <div><strong>Refrences:</strong><br /><br /></div>:''}
+        {typingComplete && sender==='bot' && refSection.length>0 ? <div><strong>Refrences:</strong><br /></div>:''}
         <div id="section">
           {typingComplete && sender === 'bot' && refSection.map((item, idx) => (
             <div key={idx}>

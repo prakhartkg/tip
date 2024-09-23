@@ -27,6 +27,7 @@ const chatSlice = createSlice({
   initialState: {
     messages: [],
     status: 'idle',
+    loading: false,
     error: null,
   },
   reducers: {
@@ -43,10 +44,11 @@ const chatSlice = createSlice({
     builder
       .addCase(sendMessage.pending, (state) => {
         state.status = 'loading';
+        state.loading = true;
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.status = 'succeeded';
-
+        state.loading = false;
         // Add the bot's response to the messages array
         state.messages.push({
           sender: 'bot',
@@ -56,6 +58,7 @@ const chatSlice = createSlice({
       })
       .addCase(sendMessage.rejected, (state, action) => {
         state.status = 'failed';
+        state.loading = false;
         state.error = action.payload;
 
         // Optionally, you can add an error message to the chat
@@ -69,4 +72,5 @@ const chatSlice = createSlice({
 });
 
 export const { addUserMessage } = chatSlice.actions;
+export const selectLoading = (state) => state.data.loading;
 export default chatSlice.reducer;

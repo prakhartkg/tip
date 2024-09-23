@@ -1,13 +1,15 @@
 import React, { useState,useEffect,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserMessage, sendMessage } from '../store/chatSlice';
+import { addUserMessage, sendMessage} from '../store/chatSlice';
 import Message from './Message';
+import Loader from './Loader';
 
 function ChatWindow() {
   const [userMessage, setUserMessage] = useState('');
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.chat.messages);
   const selectedFile = useSelector((state) => state.files.selectedFile);
+  const loading = useSelector((state)=>state.chat.loading);
   const chatWindowRef = useRef(null);
 
   useEffect(() => {
@@ -22,7 +24,6 @@ function ChatWindow() {
 
     // Add the user's message to the chat
     dispatch(addUserMessage(userMessage));
-
     // Dispatch the async thunk to send the message and get bot response
     dispatch(sendMessage({ message: userMessage, fileId: selectedFile }));
 
@@ -49,6 +50,7 @@ function ChatWindow() {
         <button className={`btn ms-2 btn-sm ${userMessage.trim() ? 'btn-primary' : 'btn-secondary'}`} onClick={userMessage.trim() ? handleSendMessage : null} disabled={!userMessage.trim()}>
             <i className="fas fa-paper-plane"></i> Send
         </button>
+        {loading && <Loader />}
       </div>
     </div>
   );
