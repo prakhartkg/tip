@@ -12,14 +12,24 @@ function Sidebar() {
   const [fileToUpload, setFileToUpload] = useState(null);
   const uploadRef = useRef(null);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const footer = document.querySelector('.footer');
     const footerHeight = footer ? footer.offsetHeight : 0;
     if (uploadRef.current) {
       uploadRef.current.style.marginBottom = `${footerHeight}px`;
     }
-    dispatch(fetchFiles());
-  }, [dispatch]);
+  
+    const fetchAndSelectFile = async () => {
+      await dispatch(fetchFiles());
+      if (files.length > 0) {
+        dispatch(selectFile(files[0].id)); // Automatically select the first file
+      }
+    };
+
+    fetchAndSelectFile();
+
+  }, [dispatch,files.length]);
 
   const handleFileSelect = (fileId) => {
     dispatch(selectFile(fileId));

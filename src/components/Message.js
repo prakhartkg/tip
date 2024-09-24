@@ -39,8 +39,8 @@ function Message({ sender, text, isError,index, len, refSection=[]}) {
         <div id="section">
           {typingComplete && sender === 'bot' && refSection.map((item, idx) => (
             <div key={idx}>
-              {/* <strong>Section {idx + 1}:</strong><br />
-              <TypingEffect text={text} /><br /> */}
+             {/* <strong>Section {idx + 1}:</strong><br />
+              <MarkdownDisplay text={item.section} /><br />  */}
               <span dangerouslySetInnerHTML={{ __html: createPdfAnchor(item.metadata,idx) }} /><br />
             </div>
           ))}
